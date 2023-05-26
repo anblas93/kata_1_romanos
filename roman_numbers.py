@@ -65,14 +65,14 @@ numeros_romanos = {'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
 def comprueba_excepciones(romano):
     for simbolo in numeros_romanos:
         if simbolo * 4 in romano:
-            raise RomanNumberError("No se admiten más de 3 símbolos iguales")
-        elif simbolo in('V', 'L', 'D') and simbolo * 2 in romano:
-            raise RomanNumberError('No se pueden repetir la V L D')
+            raise RomanNumberError("No se admiten más de tres simbolos iguales")
+        elif simbolo in "VLD" and simbolo * 2 in romano:
+            raise RomanNumberError("No se pueden repetir V, L o D")
 
-
-def romano_a_entero(letras):
+def romano_a_entero(letras): 
     valor_total = 0
     ultimo_valor = 0
+    valor_final = 0
 
     comprueba_excepciones(letras)
 
@@ -80,20 +80,28 @@ def romano_a_entero(letras):
         valor_actual = numeros_romanos[numeral]
 
         if valor_actual <= 5 and ultimo_valor >= 50:
-            raise RomanNumberError('Resta not allowed')
-        if valor_actual <= 10 and ultimo_valor >= 500:
-            raise RomanNumberError('Resta not allowed')
+            raise RomanNumberError("Resta no permitida") 
+        if valor_actual <= 50 and ultimo_valor >= 500:
+            raise RomanNumberError("Resta no permitida")
+        
 
+        if valor_actual < valor_final:
+            raise RomanNumberError("No esta ordenado ascendente")
+        elif valor_final == valor_actual and ultimo_valor > valor_actual:
+            raise RomanNumberError("Otras dos restas seguidas")
+        
         if valor_actual >= ultimo_valor:
-            valor_total += valor_actual        
-        else:
+            valor_total += valor_actual
+        elif numeral not in "VLD":
             valor_total -= valor_actual
+        else:
+            raise RomanNumberError("Resta de multiplo de 5 no permitida")
+            
+        valor_final = ultimo_valor
         ultimo_valor = valor_actual
 
     return valor_total
 
 
-  
-
 if __name__ == "__main__":
-    print(entero_a_romano(4))
+    print(entero_a_romano(11))
