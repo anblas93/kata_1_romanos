@@ -1,4 +1,3 @@
-'''
 from cromannumbers import RomanNumber
 
 def test_instanciar_un_numero_romano():
@@ -24,14 +23,16 @@ def test_cambiar_el_valor():
     romano.numero = 2
     assert romano.numero == 2
     assert romano._simbolo == 'II'
-    '''
 
-class Alumna:
-    def __init__(self, n, a):
-        self.nombre = n
-        self.apellido = a
+    romano.simbolo = 'III'
+    assert romano.numero == 3
+    assert romano.simbolo == 'III'
 
-def test_irene_existe():
-    angel = Alumna("Angel", "Fariñas")
-    assert angel.nombre == "Angel"
-    assert angel.apellido == "Fariñas"
+def test_multiplicaciones():
+    romano1 = RomanNumber('X')
+    romano2 = RomanNumber(5)
+
+    assert romano1 * romano2 == RomanNumber('L')
+    assert romano1 * 5 == RomanNumber(50)
+    assert romano1 * 'V' == RomanNumber(50)
+
